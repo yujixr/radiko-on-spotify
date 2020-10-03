@@ -36,13 +36,25 @@ def search(artist_name: str, album_name: str, track_name: str, country: str, acc
 
     return res_json["tracks"]["items"][0]["id"]
 
-def change_a_playlists_details(playlist_id: str, name: str, access_token: str):
+
+def change_a_playlists_details(playlist_id: str, name: str, description: str, access_token: str):
     requests.put(
         "https://api.spotify.com/v1/playlists/" + playlist_id + "/",
-        json={"name": name},
+        json={"name": name, "description": description},
         headers={
             'Authorization': 'Bearer ' + access_token,
             "Content-Type": "application/json"
+        }
+    )
+
+
+def upload_a_custom_playlist_cover_image(playlist_id: str, image, access_token: str):
+    requests.put(
+        "https://api.spotify.com/v1/playlists/" + playlist_id + "/images",
+        data=base64.b64encode(image),
+        headers={
+            'Authorization': 'Bearer ' + access_token,
+            "Content-Type": "image/jpeg"
         }
     )
 

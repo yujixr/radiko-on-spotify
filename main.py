@@ -1,5 +1,8 @@
 import sys
+
 import numpy as np
+import requests
+
 import itunes
 import radiko
 import spotify
@@ -26,16 +29,23 @@ def get_track_data_from_itunes(itunes_id: str, country: str):
     return itunes.get_detail(itunes_id, country)
 
 
-def check(station: str, playlist: str, access_token: str):
+def check(station: str, playlist_id: str, access_token: str):
     radiko_xml = radiko.fetch(station)
     spotify_ids = np.loadtxt("./musics/"+station+".txt", dtype="str").tolist()
 
-    station_name = radiko.get_station_name(radiko_xml)
-    spotify.change_a_playlists_details(playlist, station_name, access_token)
+    name = radiko.get_station_name(radiko_xml)
+    description = name + "で流された楽曲を自動検出し、プレイリストに追加しています。（Spotifyにない楽曲などは追加されません）"
+    spotify.change_a_playlists_details(
+        playlist_id, name, description, access_token)
 
-    spotify.remove_items_from_a_playlist(playlist,
-                                       spotify_ids[::-100],
-                                       access_token)
+    image = requests.get(
+        "http://radiko.jp/v2/static/station/logo/"+station+"/224x100.png").content
+    spotify.upload_a_custom_playlist_cover_image(
+        playlist_id, image, access_token)
+
+    spotify.remove_items_from_a_playlist(playlist_id,
+                                         spotify_ids[::-100],
+                                         access_token)
 
     for item in radiko_xml[1].iter('item'):
         itunes_id = radiko.extract_itunes_id(item)
@@ -54,7 +64,8 @@ def check(station: str, playlist: str, access_token: str):
         if spotify_id is not None:
             spotify_ids.append(spotify_id)
         print(radiko.get_detail(item), spotify_id)
-    spotify.add_items_to_a_playlist(playlist, spotify_ids[::-100], access_token)
+    spotify.add_items_to_a_playlist(
+        playlist_id, spotify_ids[::-100], access_token)
 
     np.savetxt("./musics/"+station+".txt", np.array(spotify_ids), fmt="%s")
 
