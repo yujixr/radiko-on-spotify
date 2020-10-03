@@ -13,6 +13,10 @@ def fetch(station: str):
     return ElementTree.fromstring(res.text)
 
 
+def get_station_name(xml):
+    return xml.find('station').text
+
+
 def extract_itunes_id(item):
     if item.attrib['itunes'] == "":
         return None

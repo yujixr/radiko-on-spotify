@@ -36,8 +36,18 @@ def search(artist_name: str, album_name: str, track_name: str, country: str, acc
 
     return res_json["tracks"]["items"][0]["id"]
 
+def change_a_playlists_details(playlist_id: str, name: str, access_token: str):
+    requests.put(
+        "https://api.spotify.com/v1/playlists/" + playlist_id + "/",
+        json={"name": name},
+        headers={
+            'Authorization': 'Bearer ' + access_token,
+            "Content-Type": "application/json"
+        }
+    )
 
-def delete_music_from_playlist(playlist_id: str, music_ids: [str], access_token: str):
+
+def remove_items_from_a_playlist(playlist_id: str, music_ids: [str], access_token: str):
     query = []
     for music_id in music_ids:
         query.append({
@@ -54,7 +64,7 @@ def delete_music_from_playlist(playlist_id: str, music_ids: [str], access_token:
     )
 
 
-def add_music_to_playlist(playlist_id: str, music_ids: [str], access_token: str):
+def add_items_to_a_playlist(playlist_id: str, music_ids: [str], access_token: str):
     query = []
     for music_id in music_ids:
         query.append({
