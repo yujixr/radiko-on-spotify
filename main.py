@@ -1,4 +1,5 @@
-import config
+import sys
+
 import itunes
 import radiko
 import spotify
@@ -51,10 +52,13 @@ def check(station: str, playlist: str, access_token: str):
     spotify.add_music_to_playlist(playlist, spotify_ids, access_token)
 
 
+refresh_token = sys.argv[1]
+client_token = sys.argv[2]
+client_secret = sys.argv[3]
 access_token = spotify.auth(
-    config.refresh_token,
-    config.client_token,
-    config.client_secret
+    refresh_token,
+    client_token,
+    client_secret
 )
 
 check("TBS", "11OVi6X97j56J64adgdF5o", access_token)

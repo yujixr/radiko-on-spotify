@@ -15,10 +15,8 @@ jobs:
                 python-version: 3.x
                 architecture: x64
             - run: pip install requests
-            - name: create config.py
-              run: echo -e "refresh_token = \"$REFRESH_TOKEN\"\nclient_token = \"$CLIENT_TOKEN\"\nclient_secret = \"$CLIENT_SECRET\"" >> config.py
+            - run: python3 ./main.py $REFRESH_TOKEN $CLIENT_TOKEN $CLIENT_SECRET
               env:
                 REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
                 CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
                 CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-            - run: python3 ./main.py
