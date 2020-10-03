@@ -48,47 +48,14 @@ def change_a_playlists_details(playlist_id: str, name: str, description: str, ac
     )
 
 
-def upload_a_custom_playlist_cover_image(playlist_id: str, image, access_token: str):
+def replace_a_playlists_items(playlist_id: str, music_ids: [str], access_token: str):
+    query = []
+    for music_id in music_ids:
+        query.append("spotify:track:" + music_id)
+
     requests.put(
-        "https://api.spotify.com/v1/playlists/" + playlist_id + "/images",
-        data=base64.b64encode(image),
-        headers={
-            'Authorization': 'Bearer ' + access_token,
-            "Content-Type": "image/jpeg"
-        }
-    )
-
-
-def remove_items_from_a_playlist(playlist_id: str, music_ids: [str], access_token: str):
-    query = []
-    for music_id in music_ids:
-        query.append({
-            "uri": "spotify:track:" + music_id
-        })
-
-    requests.delete(
         "https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks",
-        json={"tracks": query},
-        headers={
-            'Authorization': 'Bearer ' + access_token,
-            "Content-Type": "application/json"
-        }
-    )
-
-
-def add_items_to_a_playlist(playlist_id: str, music_ids: [str], access_token: str):
-    query = []
-    for music_id in music_ids:
-        query.append({
-            "uri": "spotify:track:" + music_id
-        })
-
-    requests.post(
-        "https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks",
-        json={
-            "uris": query,
-            "position": 0
-        },
+        json={"uris": query},
         headers={
             'Authorization': 'Bearer ' + access_token,
             "Content-Type": "application/json"
