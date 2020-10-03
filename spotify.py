@@ -31,7 +31,7 @@ def search(artist_name: str, album_name: str, track_name: str, country: str, acc
     ).text
 
     res_json = json.loads(res)
-    if "tracks" in res_json or res_json["tracks"]["total"] == 0:
+    if "tracks" not in res_json or res_json["tracks"]["total"] == 0:
         return None
 
     return res_json["tracks"]["items"][0]["id"]
