@@ -28,7 +28,7 @@ def get_track_data_from_itunes(itunes_id: str, country: str):
 
 def check(station: str, playlist: str, access_token: str):
     radiko_xml = radiko.fetch(station)
-    spotify_ids = np.loadtxt("./musics/"+station+".txt", dtype="str")
+    spotify_ids = np.loadtxt("./musics/"+station+".txt", dtype="str").tolist()
 
     spotify.delete_music_from_playlist(playlist,
                                        spotify_ids[::-100],
@@ -53,7 +53,7 @@ def check(station: str, playlist: str, access_token: str):
         print(radiko.get_detail(item), spotify_id)
     spotify.add_music_to_playlist(playlist, spotify_ids[::-100], access_token)
 
-    np.savetxt("./musics/"+station+".txt", spotify_ids, fmt="%s")
+    np.savetxt("./musics/"+station+".txt", np.array(spotify_ids), fmt="%s")
 
 
 refresh_token = sys.argv[1]
