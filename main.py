@@ -1,5 +1,5 @@
 import sys
-
+import numpy as np
 import itunes
 import radiko
 import spotify
@@ -28,8 +28,12 @@ def get_track_data_from_itunes(itunes_id: str, country: str):
 
 def check(station: str, playlist: str, access_token: str):
     radiko_xml = radiko.fetch(station)
+    spotify_ids = np.loadtxt("./musics/"+station+".txt", dtype="str")
 
-    spotify_ids = []
+    spotify.delete_music_from_playlist(playlist,
+                                       spotify_ids[::-100],
+                                       access_token)
+
     for item in radiko_xml[1].iter('item'):
         itunes_id = radiko.extract_itunes_id(item)
 
@@ -47,9 +51,9 @@ def check(station: str, playlist: str, access_token: str):
         if spotify_id is not None:
             spotify_ids.append(spotify_id)
         print(radiko.get_detail(item), spotify_id)
+    spotify.add_music_to_playlist(playlist, spotify_ids[::-100], access_token)
 
-    spotify.delete_music_from_playlist(playlist, spotify_ids, access_token)
-    spotify.add_music_to_playlist(playlist, spotify_ids, access_token)
+    np.savetxt("./musics/"+station+".txt", spotify_ids, fmt="%s")
 
 
 refresh_token = sys.argv[1]
