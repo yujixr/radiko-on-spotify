@@ -14,7 +14,7 @@ jobs:
               with:
                 python-version: 3.x
                 architecture: x64
-            - run: pip install requests
+            - run: pip install requests numpy
             - run: python3 ./main.py $REFRESH_TOKEN $CLIENT_TOKEN $CLIENT_SECRET
               env:
                 REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
