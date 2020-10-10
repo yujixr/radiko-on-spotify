@@ -21,7 +21,7 @@ jobs:
                 REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
                 CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
                 CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-            - name: Commit new musics
-              uses: stefanzweifel/git-auto-commit-action@v4
-              with:
-                commit_message: Add latest musics by gh-actions
+            # - name: Commit new musics
+            #   uses: stefanzweifel/git-auto-commit-action@v4
+            #   with:
+            #     commit_message: Add latest musics by gh-actions
