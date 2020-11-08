@@ -22,7 +22,7 @@ def extract_itunes_id(item):
         return None
     itunes_url = parse.urlparse(item.attrib['itunes'])
     parsed_query = parse.parse_qs(itunes_url.query)
-    if parsed_query.attrib['i'] == "":
+    if 'i' not in parsed_query:
         return None
     return parsed_query["i"][0]
 
