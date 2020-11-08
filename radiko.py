@@ -21,7 +21,10 @@ def extract_itunes_id(item):
     if item.attrib['itunes'] == "":
         return None
     itunes_url = parse.urlparse(item.attrib['itunes'])
-    return parse.parse_qs(itunes_url.query)["i"][0]
+    parsed_query = parse.parse_qs(itunes_url.query)
+    if parsed_query.attrib['i'] == "":
+        return None
+    return parsed_query["i"][0]
 
 
 def get_detail(item):
