@@ -74,18 +74,12 @@ def check(station: str, playlist_id: str, access_token: str):
 refresh_token = sys.argv[1]
 client_token = sys.argv[2]
 client_secret = sys.argv[3]
+station = sys.argv[4]
+playlist_id = sys.argv[5]
 access_token = spotify.auth(
     refresh_token,
     client_token,
     client_secret
 )
 
-check("TBS", "11OVi6X97j56J64adgdF5o", access_token)
-check("QRR", "304jv8dR1DnFveTH969ObD", access_token)
-check("RN2", "0MZ068JyJDhdOGDoAc1LML", access_token)
-check("INT", "6ql2qiuO69kjTZK8FZzDyJ", access_token)
-check("FMT", "0hzw8H4PSmFDd0K952AjT7", access_token)
-check("FMJ", "2dK6F6vzYm9yfPI7MCkAb7", access_token)
-check("BAYFM78", "0AzldR8iNos8ZpUDc6uQUu", access_token)
-check("NACK5", "4bznTT4izxtHxWJNnEo6lL", access_token)
-check("YFM", "0YEpGbfFBxo04HGIQzldMM", access_token)
+check(station, playlist_id, access_token)
